@@ -12,21 +12,23 @@ export default function Detail() {
     const route = useRoute();
 
     const incident = route.params.incident;
-    const message = 'Olá APAD,estou entrando em contato pois gostaria de ajudar no caso "Cadelinha atropelada" com o valor de R$120';
+    const message = `Olá ${incident.name}, estou entrando em contato pois gostaria de ajudar no caso "${incident.title}" com o valor de ${Intl.NumberFormat('pt-BR', { 
+        style: 'currency', currency: 'BRL'
+    }).format(incident.value)}`;
     function navigateBack() {
         navigation.goBack();
     }
 
     function sendMail() {
         MailComposer.composeAsync({
-            subject: 'Herói do caso: Cadelinha atropelada',
-            recipients: ['leticia.mfreelancer@gmail.com'],
+            subject: `Herói do caso: ${incident.title}`,
+            recipients: [incident.email],
             body: message
         });
     }
 
     function sendWhatsapp() {
-        Linking.openURL(`whatsapp://send?phone=5521995670294&text=${message}`);
+        Linking.openURL(`whatsapp://send?phone=${incident.whatsapp}&text=${message}`);
     }
 
     return (
