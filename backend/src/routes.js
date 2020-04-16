@@ -38,6 +38,15 @@ routes.get('/incidents', celebrate({
     })
 }), IncidentController.index);
 
+routes.get('/incidents/profile', celebrate({
+    [Segments.HEADERS]: Joi.object({
+        authorization: Joi.string().required()
+    }).unknown(),
+    [Segments.QUERY]: Joi.object().keys({
+        page: Joi.number()
+    })
+}), IncidentController.indexProfile);
+
 routes.post('/incidents', celebrate({
     [Segments.HEADERS]: Joi.object({
         authorization: Joi.string().required()
